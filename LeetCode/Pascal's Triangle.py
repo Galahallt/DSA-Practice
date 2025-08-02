@@ -5,23 +5,21 @@ class Solution:
     def generate(self, numRows: int) -> List[List[int]]:
         ans = []
 
-        if numRows > 0:
-            ans.append([1])
-        if numRows > 1:
-            ans.append([1, 1])
+        if numRows == 0:
+            return ans
 
-        if numRows > 2:
-            for i in range(3, numRows + 1):
-                _temp = []
-                for j in range(i):
+        ans.append([1])  # First row is always [1]
 
-                    if j == 0:
-                        _temp.append(ans[i - 2][0])
-                    elif j == i - 1:
-                        _temp.append(ans[i - 2][j - 1])
-                    else:
-                        _temp.append(ans[i - 2][j] + ans[i - 2][j - 1])
+        for i in range(1, numRows):
+            prev_row = ans[i - 1]
 
-                ans.append(_temp)
+            current_row = [1]  # Always starts with 1
+
+            for j in range(1, len(prev_row)):
+                current_row.append(prev_row[j - 1] + prev_row[j])
+
+            current_row.append(1)  # Always ends with 1
+
+            ans.append(current_row)
 
         return ans
